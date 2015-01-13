@@ -769,10 +769,10 @@ On Error GoTo ErrHandler
     Dim result As Variant
     
     Dim postdata As String
-    
+    s
     postdata = m_Linkhub.toString(MgtKeyList)
     
-    Set result = httpPOST("/Statement/" + itemCode, _
+    Set result = httpPOST("/Statement/" + CStr(itemCode), _
                                 getSession_token(CorpNum), postdata, UserID)
     
     Set GetInfos = New Collection
