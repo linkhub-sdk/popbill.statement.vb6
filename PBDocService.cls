@@ -769,7 +769,7 @@ On Error GoTo ErrHandler
     Dim result As Variant
     
     Dim postdata As String
-    s
+    
     postdata = m_Linkhub.toString(MgtKeyList)
     
     Set result = httpPOST("/Statement/" + CStr(itemCode), _
