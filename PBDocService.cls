@@ -170,6 +170,10 @@ Private Function getSession_token(CorpNum As String) As String
             Exit Function
         End If
         
+        If m_token_Dic.Exists(CorpNum) Then
+            m_token_Dic.Remove (CorpNum)
+        End If
+
         m_token_Dic.Add CorpNum, m_Token
         
     End If
