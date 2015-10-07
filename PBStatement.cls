@@ -13,6 +13,10 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 
+Public sendNum              As String
+Public receiveNum           As String
+Public memo                 As String
+
 Public itemCode             As Integer
 Public mgtKey               As String
 Public invoiceNum           As String
@@ -69,7 +73,11 @@ Public propertyBag As Dictionary
 
 Public Function toDictionary() As Variant
     Set toDictionary = CreateObject("Scripting.Dictionary")
-     
+    
+    toDictionary.Add "sendNum", sendNum
+    toDictionary.Add "receiveNum", receiveNum
+    toDictionary.Add "memo", memo
+    
     toDictionary.Add "itemCode", itemCode
     toDictionary.Add "mgtKey", mgtKey
     toDictionary.Add "invoiceNum", invoiceNum
