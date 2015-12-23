@@ -1024,6 +1024,60 @@ ErrHandler:
     m_LastErrMessage = Err.Description
     Set GetInfos = Nothing
 End Function
+    'Set docSearchList = statementService.Search(txtCorpNum.Text, DType, SDate, EDate, State, ItemCode, Page, PerPage)
+Public Function Search(CorpNum As String, DType As String, SDate As String, EDate As String, State As Collection, itemCode As Collection, Page As Integer, PerPage As Integer)
+On Error GoTo ErrHandler
+    Dim result As Variant
+    Dim uri As String
+    Dim i As Integer
+    
+    uri = "/Statement/Search"
+        
+    uri = uri + "?DType=" + DType
+    uri = uri + "&SDate=" + SDate
+    uri = uri + "&EDate=" + EDate
+    
+    If State.Count > 0 Then
+        uri = uri + "&State="
+        
+        For i = 1 To State.Count
+            If i = State.Count Then
+                uri = uri + State(i)
+            Else
+                uri = uri + State(i) + ","
+            End If
+        Next
+    End If
+        
+    If itemCode.Count > 0 Then
+        uri = uri + "&ItemCode="
+        
+        For i = 1 To itemCode.Count
+            If i = itemCode.Count Then
+                uri = uri + itemCode(i)
+            Else
+                uri = uri + itemCode(i) + ","
+            End If
+        Next
+    End If
+    
+    uri = uri + "&Page=" + CStr(Page)
+    uri = uri + "&PerPage=" + CStr(PerPage)
+    
+    Set result = httpGET(uri, getSession_token(CorpNum), "")
+    
+    Set Search = New PBDocSearchList
+        
+    Search.fromDictionary result
+    
+    
+    Exit Function
+ErrHandler:
+    m_LastErrCode = Err.Number
+    m_LastErrMessage = Err.Description
+    Set Search = Nothing
+End Function
+
 '상세정보 확인
 Public Function GetDetailInfo(CorpNum As String, itemCode As Integer, mgtKey As String, Optional UserID As String) As PBStatement
 On Error GoTo ErrHandler
@@ -1265,4 +1319,67 @@ ErrHandler:
     m_LastErrMessage = Err.Description
     Set DeleteFile = Nothing
 End Function
+'전자명세서 첨부
+Public Function AttachStatement(CorpNum As String, itemCode As Integer, mgtKey As String, SubItemCode As Integer, SubMgtKey As String) As PBResponse
+On Error GoTo ErrHandler
+    If mgtKey = "" Then
+        Err.Raise -99999999, "POPBILL", "관리번호가 입력되지 않았습니다."
+    End If
+    
+    Dim result As Variant
+    
+    Dim postdata As String
+    Dim tmp As Variant
+    Set tmp = CreateObject("Scripting.Dictionary")
+    
+    tmp.Add "ItemCode", SubItemCode
+    tmp.Add "MgtKey", SubMgtKey
+    
+    postdata = m_Linkhub.toString(tmp)
+    
+    Set result = httpPOST("/Statement/" + CStr(itemCode) + "/" + mgtKey + "/AttachStmt", getSession_token(CorpNum), postdata, "")
+    Set AttachStatement = New PBResponse
+    
+    AttachStatement.code = result.Item("code")
+    AttachStatement.message = result.Item("message")
+    
+    Exit Function
+    
+ErrHandler:
+    m_LastErrCode = Err.Number
+    m_LastErrMessage = Err.Description
+    Set AttachStatement = Nothing
+End Function
+'첨부된 전자명세서 첨부해제
+Public Function DetachStatement(CorpNum As String, itemCode As Integer, mgtKey As String, SubItemCode As Integer, SubMgtKey As String) As PBResponse
+On Error GoTo ErrHandler
+    If mgtKey = "" Then
+        Err.Raise -99999999, "POPBILL", "관리번호가 입력되지 않았습니다."
+    End If
+    
+    Dim result As Variant
+    
+    Dim postdata As String
+    Dim tmp As Variant
+    Set tmp = CreateObject("Scripting.Dictionary")
+    
+    tmp.Add "ItemCode", SubItemCode
+    tmp.Add "MgtKey", SubMgtKey
+    
+    postdata = m_Linkhub.toString(tmp)
+    
+    Set result = httpPOST("/Statement/" + CStr(itemCode) + "/" + mgtKey + "/DetachStmt", getSession_token(CorpNum), postdata, "")
+    Set DetachStatement = New PBResponse
+    
+    DetachStatement.code = result.Item("code")
+    DetachStatement.message = result.Item("message")
+    
+    Exit Function
+    
+ErrHandler:
+    m_LastErrCode = Err.Number
+    m_LastErrMessage = Err.Description
+    Set DetachStatement = Nothing
+End Function
+
 
