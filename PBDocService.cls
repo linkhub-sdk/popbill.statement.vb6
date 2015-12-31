@@ -1024,8 +1024,7 @@ ErrHandler:
     m_LastErrMessage = Err.Description
     Set GetInfos = Nothing
 End Function
-    'Set docSearchList = statementService.Search(txtCorpNum.Text, DType, SDate, EDate, State, ItemCode, Page, PerPage)
-Public Function Search(CorpNum As String, DType As String, SDate As String, EDate As String, State As Collection, itemCode As Collection, Page As Integer, PerPage As Integer)
+Public Function Search(CorpNum As String, DType As String, SDate As String, EDate As String, State As Collection, itemCode As Collection, Page As Integer, PerPage As Integer, Order As String)
 On Error GoTo ErrHandler
     Dim result As Variant
     Dim uri As String
@@ -1063,6 +1062,7 @@ On Error GoTo ErrHandler
     
     uri = uri + "&Page=" + CStr(Page)
     uri = uri + "&PerPage=" + CStr(PerPage)
+    uri = uri + "&Order=" + Order
     
     Set result = httpGET(uri, getSession_token(CorpNum), "")
     
