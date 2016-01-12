@@ -24,10 +24,13 @@ Public purposeType             As String
 
 Public writeDate               As String
 
-Public senderCorpName        As String
-Public senderCorpNum         As String
+Public senderCorpName          As String
+Public senderCorpNum           As String
+Public senderPrintYN           As Boolean
+
 Public receiverCorpName        As String
 Public receiverCorpNum         As String
+Public receiverPrintYN         As Boolean
 
 Public supplyCostTotal         As String
 Public taxTotal                As String
@@ -56,8 +59,11 @@ Public Sub fromDictionary(dic As Variant)
     
     senderCorpName = dic.Item("senderCorpName")
     senderCorpNum = dic.Item("senderCorpNum")
+    senderPrintYN = dic.Item("senderPrintYN")
+    
     receiverCorpName = dic.Item("receiverCorpName")
     receiverCorpNum = dic.Item("receiverCorpNum")
+    receiverPrintYN = dic.Item("receiverPrintYN")
     
     supplyCostTotal = dic.Item("supplyCostTotal")
     taxTotal = dic.Item("taxTotal")
