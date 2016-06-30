@@ -6,7 +6,7 @@ BEGIN
   DataSourceBehavior  = 0  'vbNone
   MTSTransactionMode  = 0  'NotAnMTSObject
 END
-Attribute VB_Name = "Class1"
+Attribute VB_Name = "PBChargeInfo"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
@@ -22,6 +22,4 @@ Public Sub fromDictionary(dic As Variant)
     chargeMethod = dic.Item("chargeMethod")
     rateSystem = dic.Item("rateSystem")
 End Sub
-
-
 
