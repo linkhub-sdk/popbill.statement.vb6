@@ -614,6 +614,24 @@ ErrHandler:
     m_LastErrCode = Err.Number
     m_LastErrMessage = Err.Description
 End Function
+
+'과금정보 조회
+Public Function GetChargeInfo(CorpNum As String, itemCode As Integer, Optional UserID As String) As PBChargeInfo
+On Error GoTo ErrHandler
+    Dim result As Variant
+       
+    Set result = httpGET("/Statement/ChargeInfo/" + CStr(itemCode), getSession_token(CorpNum), UserID)
+    
+    Set GetChargeInfo = New PBChargeInfo
+        
+    GetChargeInfo.fromDictionary result
+    Exit Function
+    
+ErrHandler:
+    m_LastErrCode = Err.Number
+    m_LastErrMessage = Err.Description
+    Set GetChargeInfo = Nothing
+End Function
 '''''''''''''''''''''''''' End Of PopbillBase '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 '전자명세서 URL확인
 Public Function GetURL(CorpNum As String, UserID As String, TOGO As String) As String
