@@ -25,6 +25,8 @@ Option Explicit
 ' Written : 2014-04-22
 ' Contributor : Jeong Yohan (code@linkhub.co.kr)
 ' Updated : 2017-08-30
+' Contributor : Kim EunHye (code@linkhub.co.kr)
+' Updated : 2018-10-05
 '
 ' Thanks for your interest.
 '=================================================================================
@@ -413,6 +415,10 @@ End Function
 '연동회원 아이디 중복 확인
 Public Function CheckID(IDString As String) As PBResponse
 On Error GoTo ErrHandler
+    If IDString = "" Then
+        Err.Raise -99999999, "POPBILL", "중복여부를 확인할 아이디가 입력되지 않았습니다."
+    End If
+    
     Dim result As Variant
     
     Set result = httpGET("/IDCheck?ID=" + IDString, "")
@@ -464,8 +470,8 @@ On Error GoTo ErrHandler
     
     Set tmp = CreateObject("Scripting.Dictionary")
     
-    tmp.Add "id", ContactInfo.ID
-    tmp.Add "pwd", ContactInfo.PWD
+    tmp.Add "id", ContactInfo.id
+    tmp.Add "pwd", ContactInfo.pwd
     tmp.Add "personName", ContactInfo.personName
     tmp.Add "tel", ContactInfo.tel
     tmp.Add "hp", ContactInfo.hp
@@ -499,7 +505,7 @@ On Error GoTo ErrHandler
     
     Set tmp = CreateObject("Scripting.Dictionary")
     
-    tmp.Add "id", ContactInfo.ID
+    tmp.Add "id", ContactInfo.id
     tmp.Add "personName", ContactInfo.personName
     tmp.Add "tel", ContactInfo.tel
     tmp.Add "hp", ContactInfo.hp
@@ -627,6 +633,14 @@ End Function
 '회원가입 여부
 Public Function CheckIsMember(CorpNum As String, LinkID As String) As PBResponse
 On Error GoTo ErrHandler
+    If CorpNum = "" Then
+        Err.Raise -99999999, "POPBILL", "팝빌회원의 사업자번호가 입력되지 않았습니다."
+    End If
+    
+    If LinkID = "" Then
+        Err.Raise -99999999, "POPBILL", "링크아이디(LinkID)가 입력되지 않았습니다."
+    End If
+
     Dim result As Variant
     
     Set result = httpGET("/Join?CorpNum=" + CorpNum + "&LID=" + LinkID, "")
@@ -663,8 +677,8 @@ On Error GoTo ErrHandler
     tmp.Add "ContactFAX", JoinInfo.ContactFAX
     tmp.Add "ContactHP", JoinInfo.ContactHP
     tmp.Add "ContactTEL", JoinInfo.ContactTEL
-    tmp.Add "ID", JoinInfo.ID
-    tmp.Add "PWD", JoinInfo.PWD
+    tmp.Add "ID", JoinInfo.id
+    tmp.Add "PWD", JoinInfo.pwd
     
     postdata = m_Linkhub.toString(tmp)
     
@@ -1109,7 +1123,7 @@ ErrHandler:
     m_LastErrMessage = Err.Description
     Set GetInfos = Nothing
 End Function
-Public Function Search(CorpNum As String, DType As String, SDate As String, EDate As String, State As Collection, itemCode As Collection, Page As Integer, PerPage As Integer, Order As String, Optional QString As String)
+Public Function Search(CorpNum As String, DType As String, SDate As String, EDate As String, state As Collection, itemCode As Collection, Page As Integer, PerPage As Integer, Order As String, Optional QString As String)
 On Error GoTo ErrHandler
     Dim result As Variant
     Dim uri As String
@@ -1121,14 +1135,14 @@ On Error GoTo ErrHandler
     uri = uri + "&SDate=" + SDate
     uri = uri + "&EDate=" + EDate
     
-    If State.Count > 0 Then
+    If state.Count > 0 Then
         uri = uri + "&State="
         
-        For i = 1 To State.Count
-            If i = State.Count Then
-                uri = uri + State(i)
+        For i = 1 To state.Count
+            If i = state.Count Then
+                uri = uri + state(i)
             Else
-                uri = uri + State(i) + ","
+                uri = uri + state(i) + ","
             End If
         Next
     End If
