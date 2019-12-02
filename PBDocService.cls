@@ -847,7 +847,7 @@ ErrHandler:
 
 End Function
 '즉시발행
-Public Function RegistIssue(CorpNum As String, Statement As PBStatement, Optional UserID As String = "", Optional EmailSubject = "") As PBResponse
+Public Function RegistIssue(CorpNum As String, Statement As PBStatement, Optional UserID As String = "", Optional emailSubject = "") As PBResponse
 On Error GoTo ErrHandler
        
     Dim result As Variant
@@ -855,7 +855,7 @@ On Error GoTo ErrHandler
     Dim postdata As String
     Dim tmpDic As Variant
     
-    Statement.EmailSubject = EmailSubject
+    Statement.emailSubject = emailSubject
     
     Set tmpDic = Statement.toDictionary
         
