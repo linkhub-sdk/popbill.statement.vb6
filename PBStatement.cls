@@ -16,6 +16,7 @@ Option Explicit
 Public sendNum              As String
 Public receiveNum           As String
 Public memo                 As String
+Public emailSubject         As String
 
 Public itemCode             As Integer
 Public mgtKey               As String
@@ -77,6 +78,7 @@ Public Function toDictionary() As Variant
     toDictionary.Add "sendNum", sendNum
     toDictionary.Add "receiveNum", receiveNum
     toDictionary.Add "memo", memo
+    toDictionary.Add "emailSubject", emailSubject
     
     toDictionary.Add "itemCode", itemCode
     toDictionary.Add "mgtKey", mgtKey

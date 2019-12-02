@@ -24,7 +24,7 @@ Option Explicit
 ' Author : Kim Seongjun (pallet027@gmail.com)
 ' Written : 2014-04-22
 ' Contributor : Jeong Yohan (code@linkhub.co.kr)
-' Updated : 2019-09-26
+' Updated : 2019-12-02
 '
 ' Thanks for your interest.
 '=================================================================================
@@ -847,13 +847,16 @@ ErrHandler:
 
 End Function
 '즉시발행
-Public Function RegistIssue(CorpNum As String, Statement As PBStatement, Optional UserID As String = "") As PBResponse
+Public Function RegistIssue(CorpNum As String, Statement As PBStatement, Optional UserID As String = "", Optional EmailSubject = "") As PBResponse
 On Error GoTo ErrHandler
        
     Dim result As Variant
     
     Dim postdata As String
     Dim tmpDic As Variant
+    
+    Statement.EmailSubject = EmailSubject
+    
     Set tmpDic = Statement.toDictionary
         
     postdata = m_Linkhub.toString(tmpDic)
