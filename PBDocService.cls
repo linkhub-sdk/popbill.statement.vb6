@@ -847,7 +847,7 @@ ErrHandler:
 
 End Function
 '즉시발행
-Public Function RegistIssue(CorpNum As String, Statement As PBStatement, Optional UserID As String = "", Optional emailSubject = "") As PBResponse
+Public Function RegistIssue(CorpNum As String, Statement As PBStatement, Optional UserID As String = "", Optional emailSubject As String = "") As PBResponse
 On Error GoTo ErrHandler
        
     Dim result As Variant
