@@ -24,7 +24,7 @@ Option Explicit
 ' Author : Kim Seongjun (pallet027@gmail.com)
 ' Written : 2014-04-22
 ' Contributor : Jeong Yohan (code@linkhub.co.kr)
-' Updated : 2019-12-02
+' Updated : 2020-07-20
 '
 ' Thanks for your interest.
 '=================================================================================
@@ -1296,6 +1296,25 @@ ErrHandler:
     m_LastErrCode = Err.Number
     m_LastErrMessage = Err.Description
     GetPrintURL = ""
+End Function
+
+Public Function GetViewURL(CorpNum As String, itemCode As Integer, mgtKey As String, Optional UserID As String = "") As String
+On Error GoTo ErrHandler
+    If mgtKey = "" Then
+        Err.Raise -99999999, "POPBILL", "관리번호가 입력되지 않았습니다."
+    End If
+    
+    Dim result As Variant
+    
+    Set result = httpGET("/Statement/" + CStr(itemCode) + "/" + mgtKey + "?TG=VIEW", _
+                                getSession_token(CorpNum), UserID)
+    
+    GetViewURL = result.Item("url")
+    Exit Function
+ErrHandler:
+    m_LastErrCode = Err.Number
+    m_LastErrMessage = Err.Description
+    GetViewURL = ""
 End Function
 '수신자 인쇄 URL확인
 Public Function GetEPrintURL(CorpNum As String, itemCode As Integer, mgtKey As String, Optional UserID As String = "") As String
