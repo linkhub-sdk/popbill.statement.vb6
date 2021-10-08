@@ -900,6 +900,7 @@ On Error GoTo ErrHandler
     
     RegistIssue.code = result.Item("code")
     RegistIssue.message = result.Item("message")
+    RegistIssue.invoiceNum = result.Item("invoiceNum")
     
     Exit Function
     
